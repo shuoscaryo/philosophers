@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/06 15:41:38 by orudek           ###   ########.fr       */
+/*   Created: 2023/03/07 13:59:21 by orudek            #+#    #+#             */
+/*   Updated: 2023/03/17 12:06:32 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	t_philo	*philo;
+#include "libft.h"
 
-	if (!check_input(argc, argv))
+int	ft_isascii(int c)
+{
+	if (c >= 0 && c <= 127)
 		return (1);
-	philo = new_philo();
+	return (0);
 }

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/06 15:41:38 by orudek           ###   ########.fr       */
+/*   Created: 2023/02/06 21:17:42 by orudek            #+#    #+#             */
+/*   Updated: 2023/03/13 14:25:02 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	t_philo	*philo;
+#include "libft.h"
 
-	if (!check_input(argc, argv))
-		return (1);
-	philo = new_philo();
+int	ft_isalpha(int c)
+{
+	if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))
+		return (0);
+	return (1);
 }

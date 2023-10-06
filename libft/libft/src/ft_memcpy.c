@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/06 15:41:38 by orudek           ###   ########.fr       */
+/*   Created: 2023/03/07 15:06:00 by orudek            #+#    #+#             */
+/*   Updated: 2023/03/18 17:06:54 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv)
-{
-	t_philo	*philo;
+#include "libft.h"
 
-	if (!check_input(argc, argv))
-		return (1);
-	philo = new_philo();
+void	*ft_memcpy(void *dst, const void *src, size_t len)
+{
+	size_t				i;
+	unsigned char		*out;
+	const unsigned char	*in;
+
+	if (!dst && !src)
+		return (0);
+	out = dst;
+	in = src;
+	i = 0;
+	while (i++ < len)
+		*out++ = *in++;
+	return (dst);
 }
