@@ -1,9 +1,9 @@
 /*
 !.gitignore
-!include/
-!libft/
-!src/
-!Makefile
+!philo/include/
+!philo/libft/
+!philo/src/
+!philo/Makefile
 !subject.pdf
 **/obj
 **/*.o
