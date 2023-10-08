@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   free_mutex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/07 13:55:08 by orudek            #+#    #+#             */
-/*   Updated: 2023/03/13 14:25:19 by orudek           ###   ########.fr       */
+/*   Created: 2023/10/08 17:00:43 by orudek            #+#    #+#             */
+/*   Updated: 2023/10/08 17:01:22 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "philosophers.h"
 
-int	ft_isdigit(int letter)
+int	free_mutex(pthread_mutex_t *mutex, int len)
 {
-	if (letter >= '0' && letter <= '9')
-		return (1);
+	int	i;
+
+	i = -1;
+	while (++i < len)
+		pthread_mutex_destroy(&mutex[i]);
+	free(mutex);
 	return (0);
 }

@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstget_index.c                                  :+:      :+:    :+:   */
+/*   create_mutex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/11 14:44:43 by orudek            #+#    #+#             */
-/*   Updated: 2023/09/11 15:03:21 by orudek           ###   ########.fr       */
+/*   Created: 2023/10/08 16:59:47 by orudek            #+#    #+#             */
+/*   Updated: 2023/10/08 17:00:03 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "philosophers.h"
 
-t_list	*ft_lstget_index(t_list *list, int index)
+int	create_mutex(t_data *data)
 {
-	if (index >= ft_lstsize(list) || index < 0)
+	int	i;
+	int	error;
+
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
+	if (!data->forks)
 		return (NULL);
-	while (index-- > 0)
-		list = list->next;
-	return (list);
+	i = -1;
+	while (++i < data->num_of_philos)
+	{
+		error = pthread_mutex_init(&data->forks[i], NULL);
+		if (error)
+			return (free_mutex(data->forks, i));
+	}
+	error = pthread_mutex_init(&data->write_lock, NULL);
+	if (error)
+		return (free_mutex(data->forks, i));
 }
