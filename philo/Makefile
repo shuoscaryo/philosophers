@@ -1,42 +1,34 @@
 NAME := philosophers
 
 CC := gcc
-STANDARD_FLAGS := -fsanitize=leak -Wall -Wextra -Werror 
+STANDARD_FLAGS := -fsanitize=leak -pthread -Wall -Wextra -Werror 
 
 SRC_DIR := src
 INCLUDE_DIR := include
 OBJ_DIR := obj
 
-LIBFT_DIR := libft
-LIBFT_NAME := libft.a
-
-LIB :=
-
-SRC := main.c
+SRC := main.c\
+	create_mutex.c\
+	save_inputs.c\
+	free_mutex.c
 
 SRC_FILES := $(addprefix $(SRC_DIR)/,$(SRC))
 OBJ := $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 OBJ_FOLDER := $(sort $(dir $(OBJ)))
-LIB_FLAG := $(addprefix -l,$(LIB))
-INCLUDE_PATH := -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include
+INCLUDE_PATH := -I$(INCLUDE_DIR)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT_DIR)/$(LIBFT_NAME)
-	$(CC) $(STANDARD_FLAGS)  $(INCLUDE_PATH) $(OBJ) $(LIBFT_DIR)/$(LIBFT_NAME) -o $@
+$(NAME): $(OBJ)
+	$(CC) $(STANDARD_FLAGS)  $(INCLUDE_PATH) $(OBJ) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_FOLDER)
 	$(CC) $(STANDARD_FLAGS) $(INCLUDE_PATH) -c -o $@ $<
 
-$(LIBFT_DIR)/$(LIBFT_NAME):
-	@make -C $(LIBFT_DIR) all
-
 clean:
 	@rm -rf $(OBJ_DIR)
-	@make -C $(LIBFT_DIR) fclean
-	@echo "Deleted obj files:\n\t$(OBJ)"
-	@echo "Deleted $(LIBFT_NAME)"
+	@echo "Deleted obj files"
 
 fclean: clean
 	@rm -f $(NAME)

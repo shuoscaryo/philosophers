@@ -1,10 +1,9 @@
 /*
+
 !.gitignore
-!philo/include/
-!philo/libft/
-!philo/src/
-!philo/Makefile
 !subject.pdf
+!philo/
+
 **/obj
 **/*.o
 **/*.a
