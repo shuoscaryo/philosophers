@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:41:42 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/08 19:24:38 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/09 17:56:23 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ typedef struct s_philo
 	int		state; //0 waiting to eat, 1 sleeping
 	int		last_eat_time;
 	int		meals_remaining;
-	int 	*time_to_eat;
-	int 	*time_to_sleep;
+	int 	time_to_eat;
+	int 	time_to_sleep;
 	t_mtx	forks[2];
+	t_mtx	write_lock;
 }	t_philo;
 
 typedef struct s_data
@@ -42,8 +43,8 @@ typedef struct s_data
 	int			num_of_philos;
 	t_mtx		write_lock;
 	t_mtx 		*forks;
-	pthread_t	*thread;
-	t_philo		*philo;
+	pthread_t	*threads;
+	t_philo		*philos;
 }	t_data;
 
 int	save_inputs(t_data *data, int argc, char **argv);
