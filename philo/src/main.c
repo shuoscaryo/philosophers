@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 17:37:35 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/11 17:49:24 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,6 @@ int	main(int argc, char **argv)
 
 	if (!init_data(&data, argc, argv))
 		return (1);
-	if (argc != 5 && argc != 6)
-		return (1);
-	if (!create_mutex(&data))
-		return (1);
-	if (!create_philos(&data))
-	3	return (free_mutex(data.forks, data.philos_num), pthread_mutex_destroy(&data.write_mtx));
 	i = -1;
 	while (++i < data.philos_num)
 		if (pthread_create(&data.threads[i], NULL, philo_routine, &data.philos[i]))
