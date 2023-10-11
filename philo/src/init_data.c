@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_mutex.c                                     :+:      :+:    :+:   */
+/*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/08 16:59:47 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 11:52:33 by orudek           ###   ########.fr       */
+/*   Created: 2023/10/11 14:15:07 by orudek            #+#    #+#             */
+/*   Updated: 2023/10/11 14:26:26 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	create_mutex(t_data *data)
+int	init_data(t_data *data, int argc, char **argv)
 {
-	int	i;
-
-	data->forks = malloc(sizeof(t_mtx) * data->shared.philos_num);
-	if (!data->forks)
+	if (argc != 5 && argc != 6)
 		return (0);
-	i = -1;
-	while (++i < data->shared.philos_num)
-		if (pthread_mutex_init(&data->forks[i], NULL))
-			return (free_mutex(data->forks, i));
-	if (pthread_mutex_init(&data->shared.write_mtx, NULL))
-		return (free_mutex(data->forks, i));
+	if (!init_shared(&data->shared, argc, argv))
+		return (0);
+	if (!init_forks(data))
+		return (pthread_mutex_destroy(&data->shared.write_mtx), 0);
+	if (!init_philos(data))
+		return (0);
 	return (1);
 }

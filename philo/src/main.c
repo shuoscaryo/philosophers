@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 11:54:40 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/11 14:15:17 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	sleep_ms(t_ulong ms)
 void	free_data(t_data *data)
 {
 	pthread_mutex_destroy(&data->write_mtx);
-	free_mutex(data->forks, data->shared.philos_num);
+	free_mutex(data->forks, data->philos_num);
 	free(data->philos);
 }
 
@@ -128,7 +128,7 @@ int	philo_dead(t_data *data)
 
 	i = -1;
 	time = get_time();	
-	while (++i < data->shared.philos_num)
+	while (++i < data->philos_num)
 	{
 		pthread_mutex_lock(&data->philos[i].philo_mtx);
 		if (time - data->philos[i].last_meal_time > data->time_to_die)
@@ -143,20 +143,20 @@ int	main(int argc, char **argv)
 	t_data	data;
 	int		i;
 
-	if (argc != 5 && argc != 6)
+	if (!init_data(&data, argc, argv))
 		return (1);
-	if (!save_inputs(&data, argc, argv))
+	if (argc != 5 && argc != 6)
 		return (1);
 	if (!create_mutex(&data))
 		return (1);
 	if (!create_philos(&data))
-	3	return (free_mutex(data.forks, data.shared.philos_num), pthread_mutex_destroy(&data.write_mtx));
+	3	return (free_mutex(data.forks, data.philos_num), pthread_mutex_destroy(&data.write_mtx));
 	i = -1;
-	while (++i < data.shared.philos_num)
+	while (++i < data.philos_num)
 		if (pthread_create(&data.threads[i], NULL, philo_routine, &data.philos[i]))
 			return (free_data(&data), 1);
 	i = 0;
-	while (i < data.shared.philos_num)
+	while (i < data.philos_num)
 		pthread_join(data.threads[i++],NULL);
 	return (0);
 }

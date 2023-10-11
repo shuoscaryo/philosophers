@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_inputs.c                                      :+:      :+:    :+:   */
+/*   init_shared.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 22:13:24 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 11:52:33 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/11 14:10:46 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,21 @@ static int	inputs_ok(char **argv)
 	return (1);
 }
 
-int	save_inputs(t_data *data, int argc, char **argv)
+int	init_shared(t_shared *shared, int argc, char **argv)
 {
 	if (!inputs_ok(argv))
 		return (0);
-	data->shared.philos_num = ft_atoi(argv[1]);
-	data->shared.death_time = ft_atoi(argv[2]);
-	data->shared.eat_time = ft_atoi(argv[3]);
-	data->shared.sleep_time = ft_atoi(argv[4]);
+	shared->start_time = get_time();
+	shared->eat_time = ft_atoi(argv[3]);
+	shared->sleep_time = ft_atoi(argv[4]);
+	shared->death_time = ft_atoi(argv[2]);
 	if (argc == 6)
-		data->shared.meals_num = ft_atoi(argv[5]);
+		shared->meals_num = ft_atoi(argv[5]);
 	else
-		data->shared.meals_num = -1;
+		shared->meals_num = -1;
+	shared->philos_num = ft_atoi(argv[1]);
+	shared->end = 0;
+	if (pthread_mutex_init(&shared->write_mtx, NULL))
+		return (0);
 	return (1);
 }

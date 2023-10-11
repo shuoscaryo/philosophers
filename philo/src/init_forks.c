@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_mutex.c                                       :+:      :+:    :+:   */
+/*   init_forks.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/08 17:00:43 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/10 23:20:51 by orudek           ###   ########.fr       */
+/*   Created: 2023/10/11 14:26:38 by orudek            #+#    #+#             */
+/*   Updated: 2023/10/11 14:30:20 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	free_mutex(t_mtx *mutex, int len)
+static void	free_mutex(t_mtx *mutex, int len)
 {
 	int	i;
 
@@ -20,4 +20,18 @@ void	free_mutex(t_mtx *mutex, int len)
 	while (++i < len)
 		pthread_mutex_destroy(&mutex[i]);
 	free(mutex);
+}
+
+int	init_forks(t_data *data)
+{
+	int	i;
+
+	data->forks = malloc(sizeof(t_mtx) * data->shared.philos_num);
+	if (!data->forks)
+		return (0);
+	i = -1;
+	while (++i < data->shared.philos_num)
+		if (pthread_mutex_init(&data->forks[i], NULL))
+			return (free_mutex(data->forks, i), 0);
+	return (1);
 }
