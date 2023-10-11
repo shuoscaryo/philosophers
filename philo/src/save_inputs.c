@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 22:13:24 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/09 22:50:45 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/11 11:52:33 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int	save_inputs(t_data *data, int argc, char **argv)
 {
 	if (!inputs_ok(argv))
 		return (0);
-	data->philos_num = ft_atoi(argv[1]);
-	data->time_to_die = ft_atoi(argv[2]);
-	data->time_to_eat = ft_atoi(argv[3]);
-	data->time_to_sleep = ft_atoi(argv[4]);
+	data->shared.philos_num = ft_atoi(argv[1]);
+	data->shared.death_time = ft_atoi(argv[2]);
+	data->shared.eat_time = ft_atoi(argv[3]);
+	data->shared.sleep_time = ft_atoi(argv[4]);
 	if (argc == 6)
-		data->num_of_meals = ft_atoi(argv[5]);
+		data->shared.meals_num = ft_atoi(argv[5]);
 	else
-		data->num_of_meals = -1;
+		data->shared.meals_num = -1;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:41:42 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/10 20:27:51 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/11 11:52:00 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,39 +34,39 @@ enum
 	DEAD_MSG
 };
 
+typedef struct s_shared
+{
+	t_ulong		start_time;
+	t_ulong		eat_time;
+	t_ulong		sleep_time;
+	t_ulong		death_time;
+	int			meals_num;
+	t_mtx		write_mtx;
+	int			philos_num;
+}	t_shared;
+
 typedef struct s_philo
 {
-	int		id;					//const
-	int		state; 				//0 uninitialized, 1 active mutex
-	t_ulong	start_time;			//mutex
-	t_ulong	last_meal_time;		//mutex
-	int		meals_remaining;	//no importa solo lo lee philo
-	t_ulong	time_to_eat;		//const
-	t_ulong	time_to_sleep;		//const
-	t_mtx	*left_fork;			//const
-	t_mtx	*right_fork;		//const
-	t_mtx	*write_mtx;		//const
-	t_mtx	philo_mtx;			//const
+	int			id;
+	t_ulong		last_meal_time;
+	int			meals_remaining;
+	t_mtx		*left_fork;
+	t_mtx		*right_fork;
+	t_mtx		philo_mtx;
+	t_shared	*shared;
 }	t_philo;
 
 typedef struct s_data
 {
-	t_ulong		time_to_die;
-	t_ulong		time_to_eat;
-	t_ulong		time_to_sleep;
-	int			num_of_meals;
-	int			philos_num;
-	t_mtx		write_mtx;
 	t_mtx		*forks;
 	pthread_t	*threads;
 	t_philo		*philos;
-	t_philo		*philo_dead;
-	t_mtx		data_mtx;
+	t_shared	shared;
 }	t_data;
 
 int		save_inputs(t_data *data, int argc, char **argv);
 int		create_mutex(t_data *data);
-int		free_mutex(pthread_mutex_t *mutex, int len);
+void	free_mutex(pthread_mutex_t *mutex, int len);
 
 void	sleep_ms(t_ulong ms);
 t_ulong	get_time(void);
