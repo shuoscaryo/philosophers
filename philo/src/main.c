@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 14:15:17 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/11 17:37:35 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,21 @@
 
 void print_philo(t_philo *philo)
 {
-	pthread_mutex_lock(philo->write_mtx);
+	pthread_mutex_lock(&philo->shared->write_mtx);
 	printf("Philo data:\n");
 	printf("\tid: %d\n",philo->id);
-	printf("\tstate: %d\n",philo->state);
 	printf("\tlast_meal_time: %lu\n",philo->last_meal_time);
 	printf("\tmeals_remaining: %d\n",philo->meals_remaining);
-	printf("\ttime_to_eat: %lu\n",philo->time_to_eat);
-	printf("\ttime_to_sleep: %lu\n",philo->time_to_sleep);
 	printf("\tleft_fork: (%p)\n", philo->left_fork);
 	printf("\tright_fork: (%p)\n", philo->right_fork);
-	printf("\twrite_mtx: (%p)\n", philo->write_mtx);
-	pthread_mutex_unlock(philo->write_mtx);
+	printf("\tphilo_mtx (%p)\n", &philo->philo_mtx);
+	printf("\tshared (%p)\n", philo->shared);
+	pthread_mutex_unlock(&philo->shared->write_mtx);
 }
 
 t_ulong	get_time(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);

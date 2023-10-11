@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 22:13:24 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 14:10:46 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/11 15:57:07 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_atoi(char *str)
 {
-	int out;
+	int	out;
 
 	out = 0;
 	if (*str == '+')

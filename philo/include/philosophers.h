@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:41:42 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 14:32:49 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/11 16:13:17 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int		init_shared(t_shared *shared, int argc, char **argv);
 int		init_forks(t_data *data);
 int		init_philos(t_data *data);
 void	free_mutex(pthread_mutex_t *mutex, int len);
+void	*philo_routine(void *data);
 
 void	sleep_ms(t_ulong ms);
 t_ulong	get_time(void);
