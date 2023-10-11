@@ -4,6 +4,8 @@
 !subject.pdf
 !philo/
 
+philosophers
+**/philosophers
 **/obj
 **/*.o
 **/*.a
