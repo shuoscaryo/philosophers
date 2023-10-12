@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:41:42 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 16:13:17 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/12 19:40:59 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_shared
 	int			meals_num;
 	int			philos_num;
 	int			end;
-	t_mtx		write_mtx;
+	t_mtx		shared_mtx;
 }	t_shared;
 
 typedef struct s_philo

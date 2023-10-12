@@ -8,9 +8,10 @@ INCLUDE_DIR := include
 OBJ_DIR := obj
 
 SRC := main.c\
-	create_mutex.c\
-	save_inputs.c\
-	free_mutex.c
+	init_data.c\
+	init_forks.c\
+	init_philos.c\
+	init_shared.c
 
 SRC_FILES := $(addprefix $(SRC_DIR)/,$(SRC))
 OBJ := $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

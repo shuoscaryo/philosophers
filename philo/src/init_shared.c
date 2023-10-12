@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 22:13:24 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 15:57:07 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/12 19:41:25 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	init_shared(t_shared *shared, int argc, char **argv)
 		shared->meals_num = -1;
 	shared->philos_num = ft_atoi(argv[1]);
 	shared->end = 0;
-	if (pthread_mutex_init(&shared->write_mtx, NULL))
+	if (pthread_mutex_init(&shared->shared_mtx, NULL))
 		return (0);
 	return (1);
 }

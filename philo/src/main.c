@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/11 17:49:24 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/12 19:56:44 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void print_philo(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->shared->write_mtx);
+	pthread_mutex_lock(&philo->shared->shared_mtx);
 	printf("Philo data:\n");
 	printf("\tid: %d\n",philo->id);
 	printf("\tlast_meal_time: %lu\n",philo->last_meal_time);
@@ -23,7 +23,7 @@ void print_philo(t_philo *philo)
 	printf("\tright_fork: (%p)\n", philo->right_fork);
 	printf("\tphilo_mtx (%p)\n", &philo->philo_mtx);
 	printf("\tshared (%p)\n", philo->shared);
-	pthread_mutex_unlock(&philo->shared->write_mtx);
+	pthread_mutex_unlock(&philo->shared->shared_mtx);
 }
 
 t_ulong	get_time(void)
@@ -45,18 +45,20 @@ void	sleep_ms(t_ulong ms)
 
 void	free_data(t_data *data)
 {
-	pthread_mutex_destroy(&data->write_mtx);
-	free_mutex(data->forks, data->philos_num);
+	pthread_mutex_destroy(&data->shared.shared_mtx);
+	//free_(data->forks, data->philos_num);
+	free(data->forks);
+	free(data->threads);
 	free(data->philos);
 }
 
 void	philo_init(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
-		usleep(philo->time_to_eat / 2);
+		usleep(philo->shared->eat_time / 2);
+		//check death after this
 	pthread_mutex_lock(&philo->philo_mtx);
 	philo->last_meal_time = get_time();
-	philo->state = 1;
 	pthread_mutex_unlock(&philo->philo_mtx);
 }
 
@@ -64,8 +66,8 @@ void	philo_speak(t_philo *philo, int MSG)
 {
 	t_ulong	time;
 
-	time = get_time() - philo->start_time;
-	pthread_mutex_lock(philo->write_mtx);
+	time = get_time() - philo->shared->start_time;
+	pthread_mutex_lock(&philo->shared->shared_mtx);
 	if (MSG == TAKE_FORK_MSG)
 		printf("%lu %d has taken a fork\n", time , philo->id);
 	else if (MSG == EATING_MSG)
@@ -76,7 +78,7 @@ void	philo_speak(t_philo *philo, int MSG)
 		printf("%lu %d is thinking\n", time , philo->id);
 	else if (MSG == DEAD_MSG)
 		printf("%lu %d has died\n", time , philo->id);
-	pthread_mutex_unlock(philo->write_mtx);
+	pthread_mutex_unlock(&philo->shared->shared_mtx);
 }
 
 void	philo_eat(t_philo *philo)
@@ -91,7 +93,7 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->philo_mtx);
 	if (philo->meals_remaining != -1)
 		philo->meals_remaining--;
-	sleep_ms(philo->time_to_eat);
+	sleep_ms(philo->shared->eat_time);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
@@ -99,7 +101,7 @@ void	philo_eat(t_philo *philo)
 void	philo_sleep(t_philo *philo)
 {
 	philo_speak(philo, SLEEPING_MSG);
-	sleep_ms(philo->time_to_sleep);
+	sleep_ms(philo->shared->sleep_time);
 }
 
 void	*philo_routine(void *data)
@@ -119,36 +121,41 @@ void	*philo_routine(void *data)
 	return (NULL);
 }
 
-int	philo_dead(t_data *data)
-{
-	int	i;
-	t_ulong	time;
-
-	i = -1;
-	time = get_time();	
-	while (++i < data->philos_num)
-	{
-		pthread_mutex_lock(&data->philos[i].philo_mtx);
-		if (time - data->philos[i].last_meal_time > data->time_to_die)
-			return (1);
-		pthread_mutex_unlock(&data->philos[i].philo_mtx);
-	}
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_data	data;
 	int		i;
+	int		all_eaten;
 
 	if (!init_data(&data, argc, argv))
 		return (1);
-	i = -1;
-	while (++i < data.philos_num)
-		if (pthread_create(&data.threads[i], NULL, philo_routine, &data.philos[i]))
-			return (free_data(&data), 1);
-	i = 0;
-	while (i < data.philos_num)
+	while (!data.shared.end)
+	{
+		i = -1;
+		all_eaten = 1;
+		while (++i < data.shared.philos_num)
+		{
+			//pthread_mutex_lock(&data.philos[i].philo_mtx);
+			if (get_time() - data.philos[i].last_meal_time
+					> data.shared.death_time)
+			{
+				pthread_mutex_lock(&data.shared.shared_mtx);
+				data.shared.end = 1;
+				pthread_mutex_unlock(&data.shared.shared_mtx);
+				if (data.philos[i].meals_remaining)
+					all_eaten = 0;
+			}
+			//pthread_mutex_unlock(&data.philos[i].philo_mtx);
+		}
+		if (all_eaten)
+		{
+			pthread_mutex_lock(&data.shared.shared_mtx);
+			data.shared.end = 1;
+			pthread_mutex_unlock(&data.shared.shared_mtx);
+		}
+	}
+	while (i < data.shared.philos_num)
 		pthread_join(data.threads[i++],NULL);
+	free_data(&data);
 	return (0);
 }
