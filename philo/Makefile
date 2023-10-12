@@ -1,7 +1,7 @@
 NAME := philosophers
 
 CC := gcc
-STANDARD_FLAGS :=  -pthread -Wall -Wextra -Werror  #-fsanitize=leak
+STANDARD_FLAGS :=  -pthread -Wall -Wextra -Werror #-fsanitize=leak
 
 SRC_DIR := src
 INCLUDE_DIR := include
@@ -37,4 +37,4 @@ fclean: clean
 	
 re: fclean all
 
-.PHONY: clean fclean all re
+.PHONY: debug clean fclean all re
