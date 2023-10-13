@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:21:13 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/13 19:30:39 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/13 20:10:15 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,12 @@ void	*philo_routine(void *data)
 		return (NULL) ;
 	philo_speak(philo, THINKING_MSG);
 	if (philo->id % 2 == 0)
-		sleep_ms(philo->shared->eat_time / 10);
+		sleep_ms(philo->shared->eat_time / 2);
+	if (philo->shared->philos_num == 1)
+	{
+		philo_speak(philo, TAKE_FORK_MSG);
+		return (NULL);
+	}
 	while (!get_end(philo->shared))
 	{	
 		philo_eat(philo);

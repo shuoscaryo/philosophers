@@ -6,14 +6,14 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/13 19:33:37 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/13 19:54:35 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 
-void	free_data(t_data *data)
+void	free_data(t_data *data) //NOTE do this
 {
 	pthread_mutex_destroy(&data->shared.shared_mtx);
 	//free_(data->forks, data->philos_num);
