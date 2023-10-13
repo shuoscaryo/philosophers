@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:41:42 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/12 19:40:59 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/13 16:59:46 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,17 @@
 # include <unistd.h>
 
 # define MAX_INT 2147483647
-# define SLEEP_TICKS 100
+# define SLEEP_TICKS 50
 
 typedef pthread_mutex_t	t_mtx;
 typedef unsigned long	t_ulong;
 
-enum
-{
-	TAKE_FORK_MSG,
-	EATING_MSG,
-	SLEEPING_MSG,
-	THINKING_MSG,
-	DEAD_MSG
-};
+# define TAKE_FORK_MSG "has taken a fork"
+# define EATING_MSG "is eating"
+# define SLEEPING_MSG "is sleeping"
+# define THINKING_MSG "is thinking"
+# define DEAD_MSG "died"
+
 
 typedef struct s_shared
 {
@@ -42,7 +40,7 @@ typedef struct s_shared
 	t_ulong		death_time;
 	int			meals_num;
 	int			philos_num;
-	int			end;
+	char		end;
 	t_mtx		shared_mtx;
 }	t_shared;
 
@@ -71,6 +69,8 @@ int		init_forks(t_data *data);
 int		init_philos(t_data *data);
 void	free_mutex(pthread_mutex_t *mutex, int len);
 void	*philo_routine(void *data);
+void	philo_speak(t_philo *philo, char *msg);
+int		check_end(t_data *data);
 
 void	sleep_ms(t_ulong ms);
 t_ulong	get_time(void);

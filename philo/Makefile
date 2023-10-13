@@ -1,7 +1,7 @@
 NAME := philosophers
 
 CC := gcc
-STANDARD_FLAGS :=  -pthread -Wall -Wextra -Werror #-fsanitize=leak
+STANDARD_FLAGS :=  -pthread -Wall -Wextra -g -Werror -fsanitize=thread
 
 SRC_DIR := src
 INCLUDE_DIR := include
@@ -11,7 +11,8 @@ SRC := main.c\
 	init_data.c\
 	init_forks.c\
 	init_philos.c\
-	init_shared.c
+	init_shared.c\
+	check_end.c
 
 SRC_FILES := $(addprefix $(SRC_DIR)/,$(SRC))
 OBJ := $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
