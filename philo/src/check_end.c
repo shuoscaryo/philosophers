@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 15:28:35 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/13 15:53:32 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/13 17:30:11 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_end(t_data *data)
 	all_eaten = 1;
 	while (++i < data->shared.philos_num)
 	{
-		pthread_mutex_lock(&data->philos[i].philo_mtx);
+		pthread_mutex_lock(&data->philos[i].philo_mtx); //NOTE mirar porque esto no se puede quitar
 		time = data->philos[i].last_meal_time;
 		if (data->philos[i].meals_remaining)
 			all_eaten = 0;

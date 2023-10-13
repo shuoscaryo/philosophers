@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/13 17:25:18 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/13 17:29:52 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,65 +50,6 @@ void	free_data(t_data *data)
 	free(data->forks);
 	free(data->threads);
 	free(data->philos);
-}
-
-void	philo_speak(t_philo *philo, char *msg)
-{
-	t_ulong	time;
-
-	if (philo->shared->end)
-		return ;
-	time = get_time() - philo->shared->start_time;
-	pthread_mutex_lock(&philo->shared->shared_mtx);
-	printf("%lu %d %s\n", time , philo->id, msg);
-	pthread_mutex_unlock(&philo->shared->shared_mtx);
-}
-
-void	philo_eat(t_philo *philo)
-{
-	pthread_mutex_lock(philo->left_fork);
-	philo_speak(philo, TAKE_FORK_MSG);
-	pthread_mutex_lock(philo->right_fork);
-	philo_speak(philo, TAKE_FORK_MSG);
-	philo_speak(philo, EATING_MSG);
-	pthread_mutex_lock(&philo->philo_mtx);
-	philo->last_meal_time = get_time();
-	pthread_mutex_unlock(&philo->philo_mtx);
-	if (philo->meals_remaining != -1)
-		philo->meals_remaining--;
-	sleep_ms(philo->shared->eat_time);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
-}
-
-void	philo_sleep(t_philo *philo)
-{
-	philo_speak(philo, SLEEPING_MSG);
-	sleep_ms(philo->shared->sleep_time);
-}
-
-void	*philo_routine(void *data)
-{
-	t_philo *philo;
-
-	philo = (t_philo *)data;
-	philo_speak(philo, THINKING_MSG);
-	if (philo->id % 2 == 0)
-		sleep_ms(philo->shared->eat_time / 2);
-	while (!philo->shared->end)
-	{	
-		philo_speak(philo, "NEW CYCLE");
-		if (philo->meals_remaining == 0)
-			break ;
-		philo_speak(philo, THINKING_MSG);
-		if (philo->shared->end)
-			return (NULL);
-		philo_eat(philo);
-		if (philo->shared->end)
-			return (NULL);
-		philo_sleep(philo);
-	}
-	return (NULL);
 }
 
 int	main(int argc, char **argv)

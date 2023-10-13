@@ -12,7 +12,9 @@ SRC := main.c\
 	init_forks.c\
 	init_philos.c\
 	init_shared.c\
-	check_end.c
+	check_end.c\
+	philo_routine.c\
+	philo_speak.c
 
 SRC_FILES := $(addprefix $(SRC_DIR)/,$(SRC))
 OBJ := $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
