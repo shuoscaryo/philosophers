@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:41:42 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/14 15:44:19 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 16:00:34 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef unsigned long	t_ulong;
 # define SLEEPING_MSG "is sleeping"
 # define THINKING_MSG "is thinking"
 # define DEAD_MSG "died"
-
 
 typedef struct s_shared
 {
