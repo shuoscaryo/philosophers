@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:39:19 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/14 16:04:35 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 17:01:43 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int	init_philos(t_data *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].last_meal_time = data->shared.start_time;
 		data->philos[i].meals_remaining = data->shared.meals_num;
-		data->philos[i].left_fork = &data->forks[i];
-		data->philos[i].right_fork
+		data->philos[i].fork[0] = &data->forks[i];
+		data->philos[i].fork[1]
 			= &data->forks[(i + 1) % data->shared.philos_num];
 		data->philos[i].shared = &data->shared;
 		if (pthread_mutex_init(&data->philos[i].philo_mtx, NULL))

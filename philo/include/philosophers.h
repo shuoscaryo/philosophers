@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:41:42 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/14 16:00:34 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 17:01:52 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ typedef struct s_philo
 	int			id;
 	t_ulong		last_meal_time;
 	int			meals_remaining;
-	t_mtx		*left_fork;
-	t_mtx		*right_fork;
+	t_mtx		*fork[2];
 	t_mtx		philo_mtx;
 	t_shared	*shared;
 }	t_philo;
