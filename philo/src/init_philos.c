@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:39:19 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/14 17:01:43 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 20:02:07 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int	init_threads(t_data *data)
 
 	i = -1;
 	while (++i < data->shared.philos_num)
+	{
 		if (pthread_create(&data->threads[i],
 				NULL, philo_routine, &data->philos[i]))
 		{
@@ -48,6 +49,7 @@ static int	init_threads(t_data *data)
 			free_philos(data, data->shared.philos_num);
 			return (0);
 		}
+	}
 	return (1);
 }
 
@@ -74,5 +76,5 @@ int	init_philos(t_data *data)
 		if (pthread_mutex_init(&data->philos[i].philo_mtx, NULL))
 			return (free_philos(data, i), 0);
 	}
-	return (init_threads(data)); // NOTEfree philos
+	return (init_threads(data));
 }

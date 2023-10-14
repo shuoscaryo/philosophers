@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:21:13 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/14 17:30:47 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 21:05:35 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ static void	philo_sleep(t_philo *philo)
 	sleep_ms(philo->shared->sleep_time);
 }
 
-
-static int get_end(t_shared *shared)
+static int	get_end(t_shared *shared)
 {
-	int end;
+	int	end;
 
 	pthread_mutex_lock(&shared->shared_mtx);
 	end = shared->end;
@@ -50,11 +49,11 @@ static int get_end(t_shared *shared)
 
 void	*philo_routine(void *data)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	if (philo->meals_remaining == 0)
-		return (NULL) ;
+		return (NULL);
 	philo_speak(philo, THINKING_MSG);
 	if (philo->id % 2 == 0)
 		sleep_ms(philo->shared->eat_time / 2);
@@ -66,11 +65,7 @@ void	*philo_routine(void *data)
 	while (!get_end(philo->shared))
 	{	
 		philo_eat(philo);
-		//if (!get_end(philo->shared))
-		//	return (NULL);
 		philo_sleep(philo);
-		//if (!get_end(philo->shared))
-	//		return (NULL);
 		philo_speak(philo, THINKING_MSG);
 	}
 	return (NULL);
