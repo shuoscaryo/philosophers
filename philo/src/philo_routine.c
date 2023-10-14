@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:21:13 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/14 17:18:40 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 17:30:47 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void	philo_eat(t_philo *philo)
 	philo_speak(philo, TAKE_FORK_MSG);
 	pthread_mutex_lock(philo->fork[!(philo->id % 2)]);
 	philo_speak(philo, TAKE_FORK_MSG);
-	philo_speak(philo, EATING_MSG);
 	pthread_mutex_lock(&philo->philo_mtx);
 	philo->last_meal_time = get_time();
 	pthread_mutex_unlock(&philo->philo_mtx);
+	philo_speak(philo, EATING_MSG);
 	sleep_ms(philo->shared->eat_time);
 	pthread_mutex_lock(&philo->philo_mtx);
 	if (philo->meals_remaining > 0)
