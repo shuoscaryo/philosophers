@@ -1,4 +1,4 @@
-NAME := philosophers
+NAME := philo
 
 CC := gcc
 STANDARD_FLAGS :=  -Wall -Wextra -Werror #-g3 -fsanitize=thread
