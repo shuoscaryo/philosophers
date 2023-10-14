@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:38:55 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/13 19:34:15 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 15:49:34 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,12 @@ t_ulong	get_time(void)
 
 void	sleep_ms(t_ulong ms)
 {
+	//usleep(ms * 1000);
 	t_ulong	start;
 
 	start = get_time();
 	while (ms > get_time() - start)
-		usleep(SLEEP_TICKS);
-}
-
-int	get_end(t_shared *shared)
-{
-	int	end;
-
-	pthread_mutex_lock(&shared->shared_mtx);
-	end = shared->end;
-	pthread_mutex_unlock(&shared->shared_mtx);
-	return (end);
+		usleep(SLEEP_TICKS); 
 }
 
 void	philo_speak(t_philo *philo, char *msg)

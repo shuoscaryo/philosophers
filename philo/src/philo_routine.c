@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:21:13 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/13 20:10:15 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 15:47:42 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,20 @@
 
 static void	philo_eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->left_fork);
-	philo_speak(philo, TAKE_FORK_MSG);
-	pthread_mutex_lock(philo->right_fork);
-	philo_speak(philo, TAKE_FORK_MSG);
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->left_fork);
+		philo_speak(philo, TAKE_FORK_MSG);
+		pthread_mutex_lock(philo->right_fork);
+		philo_speak(philo, TAKE_FORK_MSG);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->right_fork);
+		philo_speak(philo, TAKE_FORK_MSG);
+		pthread_mutex_lock(philo->left_fork);
+		philo_speak(philo, TAKE_FORK_MSG);
+	}
 	philo_speak(philo, EATING_MSG);
 	pthread_mutex_lock(&philo->philo_mtx);
 	philo->last_meal_time = get_time();
@@ -27,14 +37,34 @@ static void	philo_eat(t_philo *philo)
 	if (philo->meals_remaining != -1)
 		philo->meals_remaining--;
 	pthread_mutex_unlock(&philo->philo_mtx);
+	if (philo->id % 2 == 0)
+	{
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
+	}
+	else
+	{
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+		
+	}
 }
 
 static void	philo_sleep(t_philo *philo)
 {
 	philo_speak(philo, SLEEPING_MSG);
 	sleep_ms(philo->shared->sleep_time);
+}
+
+
+static int get_end(t_shared *shared)
+{
+	int end;
+
+	pthread_mutex_lock(&shared->shared_mtx);
+	end = shared->end;
+	pthread_mutex_unlock(&shared->shared_mtx);
+	return (end);
 }
 
 void	*philo_routine(void *data)

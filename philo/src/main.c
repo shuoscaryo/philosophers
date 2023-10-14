@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:37:58 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/13 19:54:35 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 15:39:08 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	if (!init_data(&data, argc, argv))
 		return (1);
 	while (!check_end(&data))
-		;
+		usleep(SLEEP_TICKS);
 	while (i < data.shared.philos_num)
 		pthread_join(data.threads[i++],NULL);
 	free_data(&data);

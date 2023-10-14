@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:41:42 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/13 19:55:18 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/14 15:44:19 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 
 # define MAX_INT 2147483647
-# define SLEEP_TICKS 50
+# define SLEEP_TICKS 100
 
 typedef pthread_mutex_t	t_mtx;
 typedef unsigned long	t_ulong;
@@ -70,7 +70,6 @@ int		init_philos(t_data *data);
 void	*philo_routine(void *data);
 void	philo_speak(t_philo *philo, char *msg);
 int		check_end(t_data *data);
-int		get_end(t_shared *shared);
 void	sleep_ms(t_ulong ms);
 t_ulong	get_time(void);
 
