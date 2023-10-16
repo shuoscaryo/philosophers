@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:21:13 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/16 13:35:56 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/16 17:11:15 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,17 @@ static int	get_end(t_shared *shared)
 	return (end);
 }
 
-void	synchronize(t_philo *philo)
+static void	synchronize(t_philo *philo)
 {
+	t_ulong	eat_t;
+	t_ulong	sleep_t;
+
 	if (philo->shared->philos_num % 2 == 0)
 		return ;
-	if (philo->shared->eat_time >= philo->shared->sleep_time)
-		sleep_ms(philo->shared->eat_time);
+	eat_t = philo->shared->eat_time;
+	sleep_t = philo->shared->sleep_time;
+	if (eat_t * 3 / 2 > sleep_t)
+		sleep_ms(eat_t * 3 / 2 - sleep_t);
 }
 
 void	*philo_routine(void *data)
