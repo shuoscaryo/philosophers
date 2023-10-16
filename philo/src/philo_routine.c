@@ -6,7 +6,7 @@
 /*   By: orudek <orudek@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:21:13 by orudek            #+#    #+#             */
-/*   Updated: 2023/10/14 21:05:35 by orudek           ###   ########.fr       */
+/*   Updated: 2023/10/16 13:35:56 by orudek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ static int	get_end(t_shared *shared)
 	return (end);
 }
 
+void	synchronize(t_philo *philo)
+{
+	if (philo->shared->philos_num % 2 == 0)
+		return ;
+	if (philo->shared->eat_time >= philo->shared->sleep_time)
+		sleep_ms(philo->shared->eat_time);
+}
+
 void	*philo_routine(void *data)
 {
 	t_philo	*philo;
@@ -55,18 +63,22 @@ void	*philo_routine(void *data)
 	if (philo->meals_remaining == 0)
 		return (NULL);
 	philo_speak(philo, THINKING_MSG);
-	if (philo->id % 2 == 0)
-		sleep_ms(philo->shared->eat_time / 2);
 	if (philo->shared->philos_num == 1)
 	{
 		philo_speak(philo, TAKE_FORK_MSG);
 		return (NULL);
 	}
+	if (philo->id % 2 == 0)
+		sleep_ms(philo->shared->eat_time / 2);
+	if (philo->shared->philos_num % 2 == 1
+		&& philo->id == philo->shared->philos_num)
+		sleep_ms(philo->shared->eat_time * 3 / 2);
 	while (!get_end(philo->shared))
 	{	
 		philo_eat(philo);
 		philo_sleep(philo);
 		philo_speak(philo, THINKING_MSG);
+		synchronize(philo);
 	}
 	return (NULL);
 }
