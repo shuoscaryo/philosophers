@@ -1,7 +1,7 @@
 NAME := philo
 
 CC := gcc
-STANDARD_FLAGS :=  -Wall -Wextra -Werror #-g3 -fsanitize=thread
+STANDARD_FLAGS :=  -Wall -Wextra -Werror #-fsanitize=thread
 
 SRC_DIR := src
 INCLUDE_DIR := include
